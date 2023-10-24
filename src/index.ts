@@ -18,11 +18,10 @@ class EventSource extends GSEventSource {
     app.use(bodyParser.urlencoded({ extended: true, limit: request_body_limit }));
     app.use(bodyParser.json({ limit: file_size_limit }));
     app.listen(port);
-  
     const eventPath = path.join(process.cwd(), "/src/events");
     const definitionsPath = path.join(process.cwd(), "/src/definitions");
     const configpath = path.join(process.cwd(), "/config");
-    generateSchema(eventPath, definitionsPath,configpath)
+    generateSchema(eventPath, definitionsPath,configpath,port)
     .then((schema:any) => {
       app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(schema));
     })

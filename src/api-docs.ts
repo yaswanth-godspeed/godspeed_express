@@ -8,7 +8,7 @@ import { PlainObject } from '@godspeedsystems/core';
 import { logger } from '@godspeedsystems/core/dist/logger';
 import fs from 'fs-extra';
 import path from 'path';
-import swaggerCommonPart from './basic-specs';
+
 
 // add it here, because of circular dependency of logger
 function removeNulls(obj: PlainObject) {
@@ -32,15 +32,40 @@ function removeNulls(obj: PlainObject) {
   return obj;
 }
 
+
+
 export default async function generateSchema(
   eventsFolderPath: string,
   definitionsFolderPath: string,
-  configPath: string
+  configPath: string,
+  port: any
 ): Promise<PlainObject> {
   const eventsSchema: PlainObject = await loadEventsYaml(eventsFolderPath);
   const definitions: PlainObject = await loadYaml(definitionsFolderPath, false);
 
   let finalSpec: PlainObject = {};
+  const swaggerCommonPart={
+    "openapi": "3.0.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "Godspeed: Sample Microservice",
+        "description": "Sample API calls demonstrating the functionality of Godspeed framework",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Mindgrep Technologies Pvt Ltd",
+            "email": "talktous@mindgrep.com",
+            "url": "https://docs.mindgrep.com/docs/microservices/intro"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "servers": [{
+        "url": `http://localhost:${port}`
+    }],
+    "paths": {}
+  };
   let swaggerSpecBase = JSON.parse(JSON.stringify(swaggerCommonPart));
 
   try {
@@ -99,7 +124,7 @@ if (require.main === module) {
   const eventPath = '/workspace/development/app/src/events';
   const definitionsPath = '/workspace/development/app/src/definitions';
   const configPath = '/workspace/development/app/config';
-  generateSchema(eventPath, definitionsPath, configPath)
+  generateSchema(eventPath, definitionsPath, configPath,path)
     .then((schema) => {
       fs.outputFile(
         '/workspace/development/app/docs/api-doc.yaml',
