@@ -19,7 +19,7 @@ class EventSource extends GSEventSource {
     app.use(bodyParser.json({ limit: file_size_limit }));
     app.listen(port);
   
-
+    
     generateSchema("/home/ayush/yash/src/events", "/home/ayush/yash/src/definitions", "/home/ayush/yash/config")
     .then((schema:any) => {
       app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(schema));

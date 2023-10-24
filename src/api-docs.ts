@@ -53,9 +53,9 @@ export default async function generateSchema(
     finalSpec = swaggerSpecBase;
 
     Object.keys(eventsSchema).forEach((event: any) => {
-      let apiEndPoint = event.split('.')[0];
+      let apiEndPoint = event.split('.')[2];
       apiEndPoint = apiEndPoint.replaceAll(/:([^\/]+)/g, '{$1}'); //We take :path_param. OAS3 takes {path_param}
-      const method = event.split('.')[2];
+      const method = event.split('.')[1];
       const eventSchema = eventsSchema[event];
 
       //Initialize the schema for this method, for given event
