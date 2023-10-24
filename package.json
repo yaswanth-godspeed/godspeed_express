@@ -1,5 +1,5 @@
 {
-  "name": "plugin-express",
+  "name": "express_yash",
   "version": "1.0.0",
   "publishConfig": {
     "access": "public"
@@ -26,5 +26,7 @@
     "express-fileupload": "^1.4.0",
     "lodash": "^4.17.21",
     "pino-pretty": "^10.2.0"
-  }
+  },
+  "description": "",
+  "license": "ISC"
 }
